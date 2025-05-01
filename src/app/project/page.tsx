@@ -5,7 +5,7 @@ import { FaExternalLinkAlt } from "react-icons/fa";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { client } from "@/sanity/lib/client";
 import Link from "next/link";
-import { Project } from "../types/project";
+import { ProjectWithVideoUrls } from "../types/project";
 
 
 const fadeIn = {
@@ -15,7 +15,7 @@ const fadeIn = {
 };
 
 
-async function getProjects(): Promise<Project[]> {
+async function getProjects(): Promise<ProjectWithVideoUrls[]> {
   const query = `*[_type == "project"] | order(order asc) {
       _id,
       title,
@@ -26,12 +26,12 @@ async function getProjects(): Promise<Project[]> {
       link,
       technologies
     }`;
-  const data = await client.fetch(query);
+  const data = await client.fetch<ProjectWithVideoUrls[]>(query);
   return data;
 }
 
 export default function ProjectSlider() {
-  const [projects, setProjects] = useState<Project[]>([]);
+  const [projects, setProjects] = useState<ProjectWithVideoUrls[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState(0);
   const [isLoading, setIsLoading] = useState(true);

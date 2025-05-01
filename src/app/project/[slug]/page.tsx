@@ -52,15 +52,13 @@ export async function generateMetadata({
     description: project.description,
   };
 }
-
 export default async function ProjectDetail({
   params,
 }: {
   params: { slug: string };
 }) {
   const project = await client.fetch<FetchedProject>(
-    `
-    *[_type == "project" && slug.current == $slug][0] {
+    `*[_type == "project" && slug.current == $slug][0] {
       _id,
       title,
       description,
@@ -83,8 +81,7 @@ export default async function ProjectDetail({
       features,
       challenges,
       screenshots
-    }
-  `,
+    }`,
     { slug: params.slug }
   );
 

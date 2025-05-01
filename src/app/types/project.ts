@@ -1,18 +1,16 @@
-// F:\hamza\portfolio\src\app\types\project.ts
+// src/app/types/project.ts
 import { PortableTextBlock } from '@portabletext/types';
 
 export interface SanityAsset {
   _id: string;
   url: string;
   _type: 'sanity.imageAsset' | 'sanity.fileAsset';
-  // Add other asset properties as needed
 }
 
 export interface VideoAsset {
   asset: {
     _ref: string;
     _type: 'reference';
-    // Add this to indicate it will be expanded
   };
 }
 
@@ -20,6 +18,7 @@ export interface ExpandedVideoAsset {
   asset: SanityAsset;
 }
 
+// Base project interface with reference to videos
 export interface Project {
   _id: string;
   title: string;
@@ -46,7 +45,13 @@ export interface Project {
   }>;
 }
 
-// This is the type we'll use for our fetched project
+// For the project slider that needs direct URLs
+export interface ProjectWithVideoUrls extends Omit<Project, 'mobileVideo' | 'desktopVideo'> {
+  mobileVideo: string;
+  desktopVideo: string;
+}
+
+// For the project detail page with expanded assets
 export interface FetchedProject extends Omit<Project, 'mobileVideo' | 'desktopVideo'> {
   mobileVideo: ExpandedVideoAsset;
   desktopVideo: ExpandedVideoAsset;
