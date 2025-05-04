@@ -85,7 +85,7 @@ function About() {
                             {/* Image Container */}
                             <div className="relative rounded-full border-4 border-transparent group-hover:border-yellow-400/30 transition-all duration-500 overflow-hidden w-72 h-72 md:w-80 md:h-80">
                                 <Image
-                                    src="/hamza.jpeg"
+                                    src="/hamza.jpg"
                                     alt="Muhammad Hamza Ismail"
                                     width={320}
                                     height={320}
