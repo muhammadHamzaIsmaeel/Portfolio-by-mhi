@@ -2,7 +2,7 @@ import Image from 'next/image';
 
 export default function AboutDetails() {
     return (
-        <section className='bg-white py-16'>
+        <section className='bg-white pt-32 pb-16'>
             <div className="text-center">
                 <h1 className="text-5xl text-violet-950 font-bold">My Journey</h1>
                 <p className='font-bold text-gray-600 mt-2'><i>Education, Certifications, and Achievements</i></p>
@@ -43,7 +43,7 @@ export default function AboutDetails() {
                 </div>
 
                 {/* Images Section */}
-                <div className='space-y-6'>
+                {/* <div className='space-y-6'>
                     <h2 className='text-3xl text-violet-950 font-bold'>Gallery</h2>
                     <div className='grid grid-cols-1 md:grid-cols-3 gap-8'>
                         <div className='relative h-64 rounded-lg overflow-hidden shadow-md'>
@@ -71,7 +71,7 @@ export default function AboutDetails() {
                             />
                         </div>
                     </div>
-                </div>
+                </div> */}
             </div>
         </section>
     );

@@ -137,9 +137,11 @@ export default async function ServicePage({
                 Get Started
                 <FaArrowRight className="ml-2" />
               </Link>
+              <a href="/home#projects">
               <button className="px-8 py-4 border-2 border-white text-white font-semibold rounded-lg hover:bg-white/10 transition-colors">
                 View Portfolio
               </button>
+              </a>
             </div>
           </div>
         </div>
@@ -215,7 +217,7 @@ export default async function ServicePage({
                   {service.technologies?.map((tech) => (
                     <Link
                       key={tech._id}
-                      href={`/technologies/${tech.slug.current}`}
+                      href={`/technologies/${tech.slug}`}
                       className="flex items-center bg-gray-50 hover:bg-gray-100 rounded-lg px-4 py-3 transition-colors"
                     >
                       {tech.logo?.asset?.url ? (
