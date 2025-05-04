@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useCallback, useState } from "react";
+import { useEffect, useState } from "react";
 import dynamic from 'next/dynamic';
 import Image from "next/image";
 import { motion, LazyMotion, domAnimation } from "framer-motion";
@@ -14,7 +14,6 @@ const About = dynamic(() => import('../about/page'), {
 const Skills = dynamic(() => import('../skills/page'));
 const Project = dynamic(() => import('../project/page'));
 const Contact = dynamic(() => import('../contact-us/page'));
-const Particles = dynamic(() => import('../../components/Particles'));
 
 function Homepage() {
   const [, setIsVisible] = useState(false);
