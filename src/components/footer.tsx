@@ -7,25 +7,25 @@ function Footer() {
     { 
       name: "GitHub", 
       icon: "/.icon/github.png", // Changed path
-      url: "#",
+      url: "https://github.com/muhammadHamzaIsmaeel",
       color: "hover:bg-gray-800"
     },
     { 
       name: "LinkedIn", 
       icon: "/.icon/linkedin.png", // Changed path
-      url: "#",
+      url: "https://www.linkedin.com/in/muhammadhamzaismail",
       color: "hover:bg-blue-700"
     },
     { 
       name: "Instagram", 
       icon: "/.icon/instagram.png", // Changed path
-      url: "#",
+      url: "https://www.instagram.com/muhammad_hamza_ismail",
       color: "hover:bg-pink-600"
     },
     { 
       name: "Facebook", 
       icon: "/.icon/facebook.png", // Changed path
-      url: "#",
+      url: "https://www.facebook.com/muhammad.hamza.ismail.2025",
       color: "hover:bg-blue-600"
     }
   ];
