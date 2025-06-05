@@ -1,5 +1,5 @@
 // src/app/technologies/[slug]/page.tsx
-// REMOVED: "use client";
+// NO "use client" directive here, as this is a Server Component
 
 import { client } from "@/sanity/lib/client";
 import { urlFor } from "@/sanity/lib/image";
@@ -7,13 +7,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { PortableText } from "@portabletext/react";
 import { FaArrowRight, FaCode, FaServer, FaDatabase, FaNetworkWired, FaMobileAlt, FaPaintBrush } from "react-icons/fa";
-// REMOVED: import { useEffect, useState } from "react";
-// REMOVED: import { useParams } from "next/navigation";
-import { notFound } from 'next/navigation'; // Import for 404 handling
-import { Technology, RelatedProject } from "@/app/types/technology";
-import { Service } from "@/app/types/service";
+import { notFound } from 'next/navigation';
+import { Technology, RelatedProject } from "@/app/types/technology"; // Ensure these types are correct
+import { Service } from "@/app/types/service"; // Ensure these types are correct
 
-// generateStaticParams remains the same, it's a server-side function
+// generateStaticParams is a server-side function, used at build time.
 export async function generateStaticParams() {
   const technologies = await client.fetch<{ slug: string }[]>(
     `*[_type == "technology" && defined(slug.current)]{ "slug": slug.current }`
@@ -23,19 +21,20 @@ export async function generateStaticParams() {
   }));
 }
 
+// Define the structure of the fetched technology data
 interface FetchedTechnology extends Technology {
   services?: Array<Pick<Service, 'title' | 'description'> & {
     _id: string;
     slug: { current: string };
     image?: {
-      asset: { _ref: string };
+      asset: { _ref: string }; // Or asset->{url,...} if you resolve it in GROQ
       alt?: string;
     };
   }>;
   projects?: RelatedProject[];
 }
 
-// getTechnology remains largely the same
+// Data fetching function, runs on the server.
 async function getTechnology(slug: string): Promise<FetchedTechnology | null> {
   try {
     const technology = await client.fetch<FetchedTechnology | null>(
@@ -71,10 +70,11 @@ async function getTechnology(slug: string): Promise<FetchedTechnology | null> {
     return technology;
   } catch (error) {
     console.error("Error fetching technology:", error);
-    return null; // Return null on error, which will be handled by notFound()
+    return null; // Handled by notFound() in the component
   }
 }
 
+// Define PortableText components if needed
 interface PortableTextComponents {
   marks?: {
     link?: (props: {
@@ -84,20 +84,25 @@ interface PortableTextComponents {
   };
 }
 
-// The page component becomes an async function and receives params
-export default async function TechnologyPage({ params }: { params: { slug: string } }) {
+// Define the props type for the Page component.
+// This is the standard way to type props for a Next.js App Router page.
+type TechnologyPageProps = {
+  params: { slug: string };
+  searchParams?: { [key: string]: string | string[] | undefined }; // Include if you use searchParams
+};
+
+// This is an async Server Component. It receives props from Next.js.
+export default async function TechnologyPage({ params }: TechnologyPageProps) {
   const slug = params.slug;
   const technology = await getTechnology(slug);
 
-  // If technology data is not found (or fetch failed), render a 404 page
+  // If data is not found, render the 404 page.
   if (!technology) {
     notFound();
   }
 
-  // Helper functions now directly use the 'technology' variable fetched above
-  // or can accept it as an argument if defined outside the component.
+  // Helper functions (these now use the 'technology' variable fetched above)
   const getCategoryIcon = () => {
-    // 'technology' is guaranteed to be non-null here due to the check above
     switch (technology.category) {
       case 'frontend': return <FaCode className="text-blue-500" />;
       case 'backend': return <FaServer className="text-green-500" />;
@@ -110,7 +115,6 @@ export default async function TechnologyPage({ params }: { params: { slug: strin
   };
 
   const getExperienceLabel = () => {
-    // 'technology' is guaranteed to be non-null here
     switch (technology.experienceLevel) {
       case 'beginner': return 'Beginner';
       case 'intermediate': return 'Intermediate';
@@ -133,12 +137,9 @@ export default async function TechnologyPage({ params }: { params: { slug: strin
     }
   };
 
-  // Loading and client-side error states are removed as data is fetched on the server.
-  // Next.js will handle server errors with an error.tsx or default error page.
-  // The `notFound()` call handles the "technology not found" case.
-
   return (
     <div className="bg-white">
+      {/* Hero Section */}
       <div className="bg-gradient-to-r from-gray-50 to-gray-100 py-28">
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row items-center gap-12">
@@ -157,7 +158,7 @@ export default async function TechnologyPage({ params }: { params: { slug: strin
             <div>
               {technology.category && (
                 <div className="inline-flex items-center gap-2 bg-white px-4 py-2 rounded-full shadow-sm mb-4">
-                  {getCategoryIcon()} {/* This will now use the server-fetched technology */}
+                  {getCategoryIcon()}
                   <span className="text-sm font-medium text-gray-700 capitalize">
                     {technology.category}
                   </span>
@@ -176,8 +177,10 @@ export default async function TechnologyPage({ params }: { params: { slug: strin
         </div>
       </div>
 
+      {/* Main Content Area */}
       <div className="container mx-auto px-4 py-16">
         <div className="grid lg:grid-cols-3 gap-12">
+          {/* Left Column (Main Content) */}
           <div className="lg:col-span-2">
             {technology.aboutContent && technology.aboutContent.length > 0 && (
               <div className="mb-12">
@@ -249,6 +252,7 @@ export default async function TechnologyPage({ params }: { params: { slug: strin
             )}
           </div>
 
+          {/* Right Column (Sidebar) */}
           <aside className="lg:sticky lg:top-28 h-fit space-y-8">
             {technology.projects && technology.projects.length > 0 && (
               <div className="bg-gray-50 rounded-xl p-6 border border-gray-100">
@@ -297,7 +301,7 @@ export default async function TechnologyPage({ params }: { params: { slug: strin
                 {technology.experienceLevel && (
                   <div>
                     <p className="text-sm text-gray-500 font-medium mb-1">Experience Level</p>
-                    <p className="font-semibold text-lg text-gray-800">{getExperienceLabel()}</p> {/* This will now use the server-fetched technology */}
+                    <p className="font-semibold text-lg text-gray-800">{getExperienceLabel()}</p>
                   </div>
                 )}
                 {typeof technology.projectsCompleted === 'number' && technology.projectsCompleted >= 0 && (
@@ -329,7 +333,7 @@ export default async function TechnologyPage({ params }: { params: { slug: strin
                 Our team has deep experience with {technology.name}. Let&apos;s discuss how we can help with your project.
               </p>
               <Link
-                href="/#contactus"
+                href="/#contactus" // Or your specific contact page/section ID
                 className="inline-flex items-center justify-center w-full bg-white text-purple-600 font-semibold py-3 px-6 rounded-lg hover:bg-gray-100 transition-colors shadow-sm"
               >
                 Get in Touch
