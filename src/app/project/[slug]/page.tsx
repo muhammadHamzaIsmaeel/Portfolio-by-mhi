@@ -1,13 +1,16 @@
-// F:\hamza\portfolio\src\app\project\[slug]\page.tsx
-import { FetchedProject, Project } from "@/app/types/project";
+// src/app/project/[slug]/page.tsx
+"use client"; // Add this directive since we'll use client-side hooks
+
+import { FetchedProject } from "@/app/types/project";
 import { client } from "@/sanity/lib/client";
-import { notFound } from "next/navigation";
+import { notFound, useParams } from "next/navigation";
 import { FaGithub, FaExternalLinkAlt, FaArrowLeft } from "react-icons/fa";
 import Link from "next/link";
 import { PortableText } from "@portabletext/react";
 import Image from "next/image";
 import { urlFor } from "@/sanity/lib/image";
-import { Metadata } from "next";
+import { useEffect, useState } from "react";
+
 
 interface PortableTextComponents {
   marks?: {
@@ -16,76 +19,94 @@ interface PortableTextComponents {
       children?: React.ReactNode;
     }) => React.ReactNode;
   };
-  // Add other component types as needed
 }
 
-export async function generateStaticParams() {
-  const projects = await client.fetch<{ slug: string }[]>(
-    `*[_type == "project"]{ "slug": slug.current }`
-  );
-  return projects.map((project) => ({
-    slug: project.slug,
-  }));
-}
+const getProjectData = async (slug: string) => {
+  try {
+    const data = await client.fetch<FetchedProject>(
+      `*[_type == "project" && slug.current == $slug][0] {
+        _id,
+        title,
+        description,
+        body,
+        mobileVideo {
+          asset->{
+            _id,
+            url
+          }
+        },
+        desktopVideo {
+          asset->{
+            _id,
+            url
+          }
+        },
+        link,
+        githubLink,
+        technologies,
+        features,
+        challenges,
+        screenshots
+      }`,
+      { slug }
+    );
+    return data || null;
+  } catch (error) {
+    console.error("Error fetching project:", error);
+    return null;
+  }
+};
 
-export async function generateMetadata({
-  params,
-}: {
-  params: { slug: string };
-}): Promise<Metadata> {
-  const project = await client.fetch<Pick<Project, "title" | "description">>(
-    `*[_type == "project" && slug.current == $slug][0] {
-      title,
-      description
-    }`,
-    { slug: params.slug }
-  );
+export default function ProjectDetail() {
+  const params = useParams();
+  const slug = params.slug as string;
 
-  if (!project) {
-    return {
-      title: "Project Not Found",
+  const [project, setProject] = useState<FetchedProject | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchProject = async () => {
+      try {
+        const data = await getProjectData(slug);
+        if (!data) {
+          setError("Project not found");
+          return;
+        }
+        setProject(data);
+      } catch (err) {
+        console.error("Failed to fetch project:", err);
+        setError("Failed to load project data");
+      } finally {
+        setLoading(false);
+      }
     };
+
+    fetchProject();
+  }, [slug]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-[#0a0e17] to-[#1a1f3a] text-white flex items-center justify-center">
+        <div className="text-center">
+          <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent"></div>
+          <p className="mt-4 text-violet-200">Loading project...</p>
+        </div>
+      </div>
+    );
   }
 
-  return {
-    title: `${project.title} | Hamza's Portfolio`,
-    description: project.description,
-  };
-}
-export default async function ProjectDetail({
-  params,
-}: {
-  params: { slug: string };
-}) {
-  const project = await client.fetch<FetchedProject>(
-    `*[_type == "project" && slug.current == $slug][0] {
-      _id,
-      title,
-      description,
-      body,
-      mobileVideo {
-        asset->{
-          _id,
-          url
-        }
-      },
-      desktopVideo {
-        asset->{
-          _id,
-          url
-        }
-      },
-      link,
-      githubLink,
-      technologies,
-      features,
-      challenges,
-      screenshots
-    }`,
-    { slug: params.slug }
-  );
+  if (error) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-[#0a0e17] to-[#1a1f3a] text-white flex items-center justify-center">
+        <div className="text-center text-red-400">{error}</div>
+      </div>
+    );
+  }
 
-  if (!project) return notFound();
+  if (!project) {
+    return notFound();
+  }
 
   const ptComponents: PortableTextComponents = {
     marks: {
