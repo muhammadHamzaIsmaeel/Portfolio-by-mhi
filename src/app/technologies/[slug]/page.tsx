@@ -1,15 +1,19 @@
-// F:\hamza\portfolio\src\app\technologies\[slug]\page.tsx
+// src/app/technologies/[slug]/page.tsx
+// REMOVED: "use client";
+
 import { client } from "@/sanity/lib/client";
 import { urlFor } from "@/sanity/lib/image";
 import Image from "next/image";
 import Link from "next/link";
 import { PortableText } from "@portabletext/react";
 import { FaArrowRight, FaCode, FaServer, FaDatabase, FaNetworkWired, FaMobileAlt, FaPaintBrush } from "react-icons/fa";
-import { notFound } from "next/navigation";
+// REMOVED: import { useEffect, useState } from "react";
+// REMOVED: import { useParams } from "next/navigation";
+import { notFound } from 'next/navigation'; // Import for 404 handling
 import { Technology, RelatedProject } from "@/app/types/technology";
 import { Service } from "@/app/types/service";
-import { Metadata } from 'next';
 
+// generateStaticParams remains the same, it's a server-side function
 export async function generateStaticParams() {
   const technologies = await client.fetch<{ slug: string }[]>(
     `*[_type == "technology" && defined(slug.current)]{ "slug": slug.current }`
@@ -31,74 +35,43 @@ interface FetchedTechnology extends Technology {
   projects?: RelatedProject[];
 }
 
+// getTechnology remains largely the same
 async function getTechnology(slug: string): Promise<FetchedTechnology | null> {
-  const technology = await client.fetch<FetchedTechnology | null>(
-    `*[_type == "technology" && slug.current == $slug][0] {
-      _id,
-      name,
-      "slug": slug.current,
-      logo {..., asset->},
-      description,
-      category,
-      aboutContent,
-      whyWeUse,
-      experienceLevel,
-      projectsCompleted,
-      preferredFor,
-      "services": *[_type == "service" && references(^._id)] | order(title asc) {
+  try {
+    const technology = await client.fetch<FetchedTechnology | null>(
+      `*[_type == "technology" && slug.current == $slug][0] {
         _id,
-        title,
+        name,
         "slug": slug.current,
+        logo {..., asset->},
         description,
-        image {..., asset->}
-      },
-      "projects": *[_type == "project" && references(^._id)] | order(_createdAt desc)[0...3] {
-        _id,
-        title,
-        "slug": slug.current,
-        description,
-        mainImage {..., asset->}
-      }
-    }`,
-    { slug }
-  );
-  return technology;
-}
-
-type Props = {
-  params: { slug: string }
-}
-
-export async function generateMetadata(
-  { params }: Props,
-): Promise<Metadata> {
-  const technology = await getTechnology(params.slug);
-
-  if (!technology) {
-    return {
-      title: 'Technology Not Found',
-    }
-  }
-
-  return {
-    title: `${technology.name} | Technology`,
-    description: technology.description,
-    openGraph: {
-      title: technology.name,
-      description: technology.description,
-      images: technology.logo?.asset?._ref
-        ? [
-            {
-              url: urlFor(technology.logo).width(300).height(300).fit('clip').url(),
-              width: 300,
-              height: 300,
-              alt: technology.logo.alt || technology.name,
-            },
-          ]
-        : [],
-      url: `/technologies/${params.slug}`,
-      type: 'website',
-    },
+        category,
+        aboutContent,
+        whyWeUse,
+        experienceLevel,
+        projectsCompleted,
+        preferredFor,
+        "services": *[_type == "service" && references(^._id)] | order(title asc) {
+          _id,
+          title,
+          "slug": slug.current,
+          description,
+          image {..., asset->}
+        },
+        "projects": *[_type == "project" && references(^._id)] | order(_createdAt desc)[0...3] {
+          _id,
+          title,
+          "slug": slug.current,
+          description,
+          mainImage {..., asset->}
+        }
+      }`,
+      { slug }
+    );
+    return technology;
+  } catch (error) {
+    console.error("Error fetching technology:", error);
+    return null; // Return null on error, which will be handled by notFound()
   }
 }
 
@@ -111,18 +84,20 @@ interface PortableTextComponents {
   };
 }
 
-export default async function TechnologyPage({
-  params,
-}: {
-  params: { slug: string };
-}) {
-  const technology = await getTechnology(params.slug);
+// The page component becomes an async function and receives params
+export default async function TechnologyPage({ params }: { params: { slug: string } }) {
+  const slug = params.slug;
+  const technology = await getTechnology(slug);
 
+  // If technology data is not found (or fetch failed), render a 404 page
   if (!technology) {
     notFound();
   }
 
+  // Helper functions now directly use the 'technology' variable fetched above
+  // or can accept it as an argument if defined outside the component.
   const getCategoryIcon = () => {
+    // 'technology' is guaranteed to be non-null here due to the check above
     switch (technology.category) {
       case 'frontend': return <FaCode className="text-blue-500" />;
       case 'backend': return <FaServer className="text-green-500" />;
@@ -135,6 +110,7 @@ export default async function TechnologyPage({
   };
 
   const getExperienceLabel = () => {
+    // 'technology' is guaranteed to be non-null here
     switch (technology.experienceLevel) {
       case 'beginner': return 'Beginner';
       case 'intermediate': return 'Intermediate';
@@ -157,6 +133,10 @@ export default async function TechnologyPage({
     }
   };
 
+  // Loading and client-side error states are removed as data is fetched on the server.
+  // Next.js will handle server errors with an error.tsx or default error page.
+  // The `notFound()` call handles the "technology not found" case.
+
   return (
     <div className="bg-white">
       <div className="bg-gradient-to-r from-gray-50 to-gray-100 py-28">
@@ -177,7 +157,7 @@ export default async function TechnologyPage({
             <div>
               {technology.category && (
                 <div className="inline-flex items-center gap-2 bg-white px-4 py-2 rounded-full shadow-sm mb-4">
-                  {getCategoryIcon()}
+                  {getCategoryIcon()} {/* This will now use the server-fetched technology */}
                   <span className="text-sm font-medium text-gray-700 capitalize">
                     {technology.category}
                   </span>
@@ -317,7 +297,7 @@ export default async function TechnologyPage({
                 {technology.experienceLevel && (
                   <div>
                     <p className="text-sm text-gray-500 font-medium mb-1">Experience Level</p>
-                    <p className="font-semibold text-lg text-gray-800">{getExperienceLabel()}</p>
+                    <p className="font-semibold text-lg text-gray-800">{getExperienceLabel()}</p> {/* This will now use the server-fetched technology */}
                   </div>
                 )}
                 {typeof technology.projectsCompleted === 'number' && technology.projectsCompleted >= 0 && (
