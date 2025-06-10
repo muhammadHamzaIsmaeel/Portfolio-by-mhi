@@ -89,8 +89,6 @@ const HomePage: FC = () => {
           aria-label="Background video showing creative coding examples"
         >
           <source src="/bg.mp4" type="video/mp4" />
-          <source src="/bg.webm" type="video/webm" />
-          Your browser does not support the video tag.
         </video>
 
         {/* Improved overlay for better text contrast */}
