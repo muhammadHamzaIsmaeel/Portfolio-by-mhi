@@ -136,7 +136,7 @@ export default function Contact() {
               </div>
               <div>
                 <p className="text-sm text-white">Phone</p>
-                <p className="text-white font-medium">+92 341 2358480</p>
+                <p className="text-white font-medium">+92 315 2121984</p>
               </div>
             </motion.div>
 
@@ -181,7 +181,7 @@ export default function Contact() {
               whileHover={{ y: -3 }}
               target="_blank" 
               rel="noopener noreferrer" 
-              href="https://www.instagram.com/muhammad_hamza_sh8ikh?igsh=ZnYxd2ZxeW1hcjBh"
+              href="https://www.instagram.com/muhammad_hamza_ismail"
               className="p-2 rounded-full bg-violet-100 text-violet-700 hover:bg-violet-200 transition-colors"
             >
               <Image src="/.icon/instagram.png" alt="Instagram" width={24} height={24} />
@@ -190,7 +190,7 @@ export default function Contact() {
               whileHover={{ y: -3 }}
               target="_blank" 
               rel="noopener noreferrer" 
-              href="https://www.facebook.com/profile.php?id=100073351960056&mibextid=ZbWKwL"
+              href="https://www.facebook.com/muhammad.hamza.ismail.2025"
               className="p-2 rounded-full bg-violet-100 text-violet-700 hover:bg-violet-200 transition-colors"
             >
               <Image src="/.icon/facebook.png" alt="Facebook" width={24} height={24} />
@@ -199,7 +199,7 @@ export default function Contact() {
               whileHover={{ y: -3 }}
               target="_blank" 
               rel="noopener noreferrer" 
-              href="https://www.linkedin.com/in/muhammadhamzasheikh?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app"
+              href="https://www.linkedin.com/in/muhammadhamzaismail"
               className="p-2 rounded-full bg-violet-100 text-violet-700 hover:bg-violet-200 transition-colors"
             >
               <Image src="/.icon/linkedin.png" alt="LinkedIn" width={24} height={24} />

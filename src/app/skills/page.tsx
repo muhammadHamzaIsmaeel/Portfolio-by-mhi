@@ -65,7 +65,7 @@ const Skills: React.FC = () => {
     { name: 'HTML', percentage: 95, description: 'Building structured, semantic, and accessible web content.' },
     { name: 'CSS', percentage: 90, description: 'Designing responsive and visually appealing web layouts.' },
     { name: 'TypeScript', percentage: 80, description: 'Writing maintainable, scalable code with type safety.' },
-    { name: 'Python', percentage: 40, description: 'Writing maintainable, scalable code with type safety.' }
+    { name: 'Python', percentage: 60, description: 'Writing maintainable, scalable code with type safety.' }
   ];
 
   const frameworksAndLibraries: Skill[] = [

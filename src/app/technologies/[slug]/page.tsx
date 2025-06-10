@@ -231,7 +231,7 @@ export default function TechnologyPage() {
                   {technology.services.map((service) => (
                     <Link
                       key={service.slug?.current ?? service._id}
-                      href={`/services/${service.slug?.current}`}
+                      href={`/services/${service.slug}`}
                       className="group bg-gray-50 hover:bg-gray-100 rounded-lg p-6 transition-all duration-200 hover:shadow-md block"
                     >
                       {service.image?.asset && (
