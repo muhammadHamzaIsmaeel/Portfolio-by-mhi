@@ -35,8 +35,8 @@ export default function ProjectSlider() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
-  const mobileVideoRef = useRef<HTMLVideoElement>(null);
-  const desktopVideoRef = useRef<HTMLVideoElement>(null);
+  const mobileVideoRef = useRef<HTMLVideoElement>(null) as React.RefObject<HTMLVideoElement>;
+  const desktopVideoRef = useRef<HTMLVideoElement>(null) as React.RefObject<HTMLVideoElement>;
 
   useEffect(() => {
     const fetchProjects = async () => {
