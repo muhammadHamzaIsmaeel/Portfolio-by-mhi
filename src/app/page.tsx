@@ -10,11 +10,12 @@ const HomePage: FC = () => {
     "@context": "https://schema.org",
     "@type": "Person",
     name: "Muhammad Hamza Ismail",
-    jobTitle: "Web Developer & Designer",
-    url: "http://muhammadhamzaismail.vercel.app",
+    jobTitle: "Web Developer & AI Agent Specialist",
+    url: "https://muhammadhamzaismail.vercel.app",
     sameAs: [
       "https://linkedin.com/in/muhammadhamzaismail",
       "https://github.com/muhammadhamzaismaeel",
+      "https://x.com/m_hamza_ismail", // Replace with your Twitter
     ],
     knowsAbout: [
       "Next.js",
@@ -24,51 +25,66 @@ const HomePage: FC = () => {
       "React",
       "Frontend Development",
       "Web Design",
+      "Ecommerce Development",
+      "Business Websites",
+      "AI Agent Integration",
     ],
+    address: {
+      "@type": "PostalAddress",
+      addressCountry: "PK", // Pakistan
+    },
   };
 
   return (
     <>
       {/* SEO Meta Tags */}
       <Head>
-        <title>
-          Muhammad Hamza Ismail | Expert Next.js & Tailwind Developer
-        </title>
+        <title>Muhammad Hamza Ismail | Web Developer & AI Agent Specialist</title>
         <meta
           name="description"
-          content="Professional portfolio showcasing modern web development projects using Next.js, Tailwind CSS, Sanity, and Stripe integrations."
+          content="Portfolio of Muhammad Hamza Ismail, offering expert website development, ecommerce solutions, business websites, and AI agent integration services in Pakistan and globally."
         />
         <meta
           name="keywords"
-          content="web developer, Next.js developer, Tailwind CSS expert, Sanity CMS, Stripe integrations, portfolio, frontend developer, React developer"
+          content="Muhammad Hamza Ismail, MHI, web developer Pakistan, website development, ecommerce website, business website, AI agent development, Next.js developer, Tailwind CSS expert, Sanity CMS, Stripe integration, frontend developer"
         />
         <meta
           property="og:title"
-          content="Muhammad Hamza Ismail - Web Developer"
+          content="Muhammad Hamza Ismail | Web & AI Solutions"
         />
         <meta
           property="og:description"
-          content="Crafting modern web experiences with focus on performance and design"
+          content="Discover professional web development, ecommerce, and AI agent services by Muhammad Hamza Ismail."
         />
         <meta
           property="og:url"
-          content="http://muhammadhamzaismail.vercel.app"
+          content="https://muhammadhamzaismail.vercel.app"
         />
         <meta property="og:type" content="website" />
-        <meta property="og:image" content="logo.png" />
+        <meta
+          property="og:image"
+          content="https://muhammadhamzaismail.vercel.app/og-image.jpg"
+        />
         <meta name="twitter:card" content="summary_large_image" />
         <meta
           name="twitter:title"
-          content="Muhammad Hamza Ismail - Web Developer"
+          content="Muhammad Hamza Ismail | Web Developer & AI Specialist"
         />
         <meta
           name="twitter:description"
-          content="Professional portfolio showcasing modern web development projects"
+          content="Expert web development and AI agent solutions by Muhammad Hamza Ismail. Contact for ecommerce and business websites!"
         />
-        <meta name="twitter:image" content="/logo.jpg" />
-        <link rel="canonical" href="http://muhammadhamzaismail.vercel.app" />
+        <meta
+          name="twitter:image"
+          content="https://muhammadhamzaismail.vercel.app/twitter-image.jpg"
+        />
+        <meta name="twitter:creator" content="@YourTwitterHandle" /> {/* Replace with your Twitter handle */}
+        <link
+          rel="canonical"
+          href="https://muhammadhamzaismail.vercel.app"
+        />
 
-        {/* Structured data */}
+        {/* Structured Data */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
@@ -86,7 +102,7 @@ const HomePage: FC = () => {
           preload="auto"
           poster="/bg2.jpg"
           className="absolute inset-0 w-full h-full object-cover -z-10 opacity-80"
-          aria-label="Background video showing creative coding examples"
+          aria-label="Background video showcasing web development and AI projects"
         >
           <source src="/bg.mp4" type="video/mp4" />
         </video>
@@ -108,7 +124,7 @@ const HomePage: FC = () => {
             transition={{ duration: 0.8, ease: "easeOut" }}
             className="text-5xl md:text-6xl font-medium mb-6 tracking-tight"
           >
-            Hello, I&apos;m{" "}
+            Hello, I'm{" "}
             <span className="text-yellow-400 font-semibold">
               Muhammad Hamza Ismail
             </span>
@@ -121,9 +137,9 @@ const HomePage: FC = () => {
             transition={{ delay: 0.3, duration: 0.8 }}
             className="text-lg md:text-xl text-gray-300 mb-10 max-w-2xl mx-auto leading-relaxed"
           >
-            I transform ideas into elegant digital solutions that combine
-            innovative design with seamless functionality, delivering
-            exceptional user experiences.
+            I craft modern websites and AI-driven solutions, specializing in
+            ecommerce, business websites, and innovative AI agent integration for
+            clients in Pakistan and worldwide.
           </motion.p>
 
           {/* Optimized CTA Button */}
@@ -133,12 +149,12 @@ const HomePage: FC = () => {
             transition={{ delay: 0.6, type: "spring" }}
           >
             <Link
-              href="/home"
-              aria-label="View my portfolio work and projects"
+              href="/services"
+              aria-label="Explore web development and AI agent services"
               className="group"
             >
               <button className="px-8 py-3.5 bg-gradient-to-r from-violet-600 to-yellow-500 text-gray-900 rounded-lg font-medium text-lg hover:bg-gray-100 transition-all duration-300 flex items-center gap-2 mx-auto shadow-md hover:shadow-lg">
-                View My Projects
+                Explore My Services
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1"

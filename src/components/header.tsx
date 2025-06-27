@@ -31,11 +31,12 @@ function Header() {
     fetchServices();
   }, []);
 
+  // Scroll-based active section detection
   useEffect(() => {
     const handleScroll = () => {
-      if (pathname !== '/home') return;
-      
-      const sections = ["home", "about", "skill", "project", "services", "contactus"];
+      if (pathname !== "/home") return;
+
+      const sections = ["home", "about", "skill", "project", "contactus"];
       let currentSection = null;
 
       for (const section of sections) {
@@ -56,37 +57,22 @@ function Header() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [pathname]);
 
-  const scrollToSection = (sectionId: string) => {
-    if (pathname !== '/home') {
-      window.location.href = `/home#${sectionId}`;
-      return;
-    }
-
-    const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      });
-    }
-  };
-
   const navLinks = useMemo(
     () => {
       const handleHomeClick = () => {
-        if (pathname === '/home') {
-          window.scrollTo({ top: 0, behavior: 'smooth' });
+        if (pathname === "/home") {
+          window.scrollTo({ top: 0, behavior: "smooth" });
         } else {
-          window.location.href = '/home';
+          window.location.href = "/home";
         }
       };
-  
+
       const scrollToSection = (sectionId: string) => {
-        if (pathname !== '/home') {
+        if (pathname !== "/home") {
           window.location.href = `/home#${sectionId}`;
           return;
         }
-  
+
         const element = document.getElementById(sectionId);
         if (element) {
           element.scrollIntoView({
@@ -95,46 +81,55 @@ function Header() {
           });
         }
       };
-  
+
       return [
-        { 
-          href: "/home", 
-          label: "HOME", 
+        {
+          href: "/home",
+          label: "HOME",
           section: "home",
-          onClick: handleHomeClick
+          onClick: handleHomeClick,
         },
-        { 
-          href: "#about", 
-          label: "ABOUT ME", 
+        {
+          href: "#about",
+          label: "ABOUT ME",
           section: "about",
-          onClick: () => scrollToSection('about')
+          onClick: () => scrollToSection("about"),
         },
-        { 
-          href: "#skill", 
-          label: "SKILLS", 
+        {
+          href: "#skill",
+          label: "SKILLS",
           section: "skill",
-          onClick: () => scrollToSection('skill')
+          onClick: () => scrollToSection("skill"),
         },
-        { 
-          href: "#project", 
-          label: "PROJECTS", 
+        {
+          href: "#project",
+          label: "PROJECTS",
           section: "project",
-          onClick: () => scrollToSection('project')
+          onClick: () => scrollToSection("project"),
         },
-        { 
-          href: "#services", 
-          label: "SERVICES", 
+        {
+          href: "/services",
+          label: "SERVICES",
           section: "services",
-          onClick: () => scrollToSection('services')
+          onClick: () => {
+            window.location.href = "/services";
+          },
         },
       ];
     },
-    [pathname] // Only pathname is needed as a dependency now
+    [pathname]
   );
 
   const handleContactClick = () => {
     trackGoal("CONTACT_BUTTON_CLICKED", 0);
-    scrollToSection("contactus");
+    if (pathname !== "/home") {
+      window.location.href = "/home#contactus";
+      return;
+    }
+    const element = document.getElementById("contactus");
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
   };
 
   return (
@@ -153,13 +148,13 @@ function Header() {
         <nav className="flex justify-between items-center w-full h-full px-4">
           {/* Logo */}
           <div className="flex items-center h-full">
-            <Link 
-              href="/" 
-              aria-label="Navigate to homepage" 
-              passHref
+            <Link
+              href="/"
+              aria-label="Navigate to Muhammad Hamza Ismail homepage"
+              rel="home"
               onClick={(e) => {
                 e.preventDefault();
-                window.location.href = '/';
+                window.location.href = "/";
               }}
             >
               <Image
@@ -167,14 +162,14 @@ function Header() {
                 alt="Muhammad Hamza Ismail Logo"
                 width={80}
                 height={80}
-                className="yellow-logo cursor-pointer hover:scale-110 transition-transform duration-300"
+                className="cursor-pointer hover:scale-110 transition-transform duration-300"
                 priority
               />
             </Link>
           </div>
 
           {/* Desktop Navbar */}
-          <ul className="hidden lg:flex font-sans gap-6 text-lg h-full items-center">
+          <ul className="hidden lg:flex font-sans gap-8 text-lg h-full items-center">
             {navLinks.map((link) => (
               <li
                 key={link.href}
@@ -184,19 +179,20 @@ function Header() {
                   <div
                     className="relative"
                     onMouseEnter={() => setServicesOpen(true)}
-                    onMouseLeave={() =>
-                      setTimeout(() => setServicesOpen(false), 300)
-                    }
+                    onMouseLeave={() => setServicesOpen(false)}
                   >
-                    <button
-                      onClick={link.onClick}
-                      aria-label={`Navigate to ${link.label}`}
+                    <Link
+                      href={link.href}
+                      aria-label={`Navigate to ${link.label} page`}
+                      rel="nofollow"
                       className="text-white transition duration-300 group-hover:text-yellow-400 group-hover:drop-shadow-[0_0_10px_rgba(255,221,51,0.8)] h-full flex items-center gap-1"
                     >
                       {link.label}
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
-                        className={`h-4 w-4 transition-transform ${servicesOpen ? "rotate-180" : ""}`}
+                        className={`h-4 w-4 transition-transform ${
+                          servicesOpen ? "rotate-180" : ""
+                        }`}
                         viewBox="0 0 20 20"
                         fill="currentColor"
                       >
@@ -206,10 +202,9 @@ function Header() {
                           clipRule="evenodd"
                         />
                       </svg>
-                    </button>
+                    </Link>
                     <span
-                      className={`absolute bottom-0 h-0.5 bg-yellow-400 transition-all duration-300 
-                      ${
+                      className={`absolute bottom-0 h-0.5 bg-yellow-400 transition-all duration-300 ${
                         activeSection === link.section || servicesOpen
                           ? "w-full left-0"
                           : "w-0 group-hover:w-full group-hover:left-0"
@@ -219,32 +214,23 @@ function Header() {
                     {/* Services Dropdown */}
                     {servicesOpen && (
                       <motion.div
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: 10 }}
-                        transition={{ duration: 0.2 }}
-                        className="absolute left-0 top-full mt-2 w-56 origin-top-right rounded-xl bg-[#10002b]/90 backdrop-blur-xl shadow-lg border border-white/10 overflow-hidden z-50"
-                        onMouseEnter={() => setServicesOpen(true)}
-                        onMouseLeave={() =>
-                          setTimeout(() => setServicesOpen(false), 300)
-                        }
+                        initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                        transition={{ duration: 0.3, ease: "easeOut" }}
+                        className="absolute left-0 top-full mt-3 w-64 rounded-xl bg-gray-900/95 backdrop-blur-xl shadow-xl border border-violet-500/30 overflow-hidden z-50"
                       >
-                        <div
-                          className="absolute -top-2 left-0 right-0 h-4"
-                          onMouseEnter={() => setServicesOpen(true)}
-                        />
-                        <div className="p-2">
+                        <div className="p-4">
                           {services.map((service) => (
                             <Link
                               key={service._id}
                               href={`/services/${service.slug}`}
-                              className="block px-4 py-3 text-white hover:bg-violet-800/30 rounded-lg transition-colors duration-200"
+                              rel="nofollow"
+                              className="block px-4 py-3 text-gray-200 hover:bg-violet-700/50 hover:text-yellow-400 rounded-lg transition-all duration-200 group flex items-center gap-3"
                               onClick={() => setServicesOpen(false)}
                             >
-                              <div className="flex items-center gap-3">
-                                <div className="w-2 h-2 rounded-full bg-yellow-400"></div>
-                                <span>{service.title}</span>
-                              </div>
+                              <div className="w-2 h-2 rounded-full bg-yellow-400 group-hover:bg-yellow-300 transition-colors"></div>
+                              <span className="font-medium">{service.title}</span>
                             </Link>
                           ))}
                         </div>
@@ -253,16 +239,17 @@ function Header() {
                   </div>
                 ) : (
                   <>
-                    <button
-                      onClick={link.onClick}
-                      aria-label={`Navigate to ${link.label}`}
+                    <Link
+                      href={link.href}
+                      rel={link.section === "home" ? "home" : "nofollow"}
+                      aria-label={`Navigate to ${link.label} section`}
                       className="text-white transition duration-300 group-hover:text-yellow-400 group-hover:drop-shadow-[0_0_10px_rgba(255,221,51,0.8)] h-full flex items-center"
+                      onClick={link.onClick}
                     >
                       {link.label}
-                    </button>
+                    </Link>
                     <span
-                      className={`absolute bottom-0 h-0.5 bg-yellow-400 transition-all duration-300 
-                      ${
+                      className={`absolute bottom-0 h-0.5 bg-yellow-400 transition-all duration-300 ${
                         activeSection === link.section
                           ? "w-full left-0"
                           : "w-0 group-hover:w-full group-hover:left-0"
@@ -275,9 +262,9 @@ function Header() {
 
             <li className="h-full flex items-center">
               <button
-                className="text-base px-6 py-2 text-white font-semibold bg-gradient-to-r from-violet-600 to-yellow-500 hover:from-yellow-500 hover:to-violet-600 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 h-full flex items-center"
+                className="text-base px-6 py-2 text-gray-900 font-semibold bg-gradient-to-r from-violet-600 to-yellow-500 hover:from-yellow-500 hover:to-violet-600 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 h-full flex items-center"
                 onClick={handleContactClick}
-                aria-label="Contact us"
+                aria-label="Contact Muhammad Hamza Ismail"
               >
                 CONTACT US
               </button>
@@ -289,20 +276,20 @@ function Header() {
             <Sheet>
               <SheetTrigger
                 className="text-white text-3xl hover:text-yellow-400 transition duration-200 flex items-center h-full p-2 rounded-full hover:bg-white/10"
-                aria-label="Open menu"
+                aria-label="Open navigation menu"
               >
                 ☰
               </SheetTrigger>
-              <SheetContent className="bg-[#10002b]/20 backdrop-blur-xl border-l border-white/20">
+              <SheetContent className="bg-gray-900/95 backdrop-blur-xl border-l border-violet-500/30">
                 <SheetHeader>
                   <SheetTitle className="flex justify-center">
-                    <Link 
-                      href="/" 
-                      aria-label="Navigate to homepage" 
-                      passHref
+                    <Link
+                      href="/"
+                      aria-label="Navigate to Muhammad Hamza Ismail homepage"
+                      rel="home"
                       onClick={(e) => {
                         e.preventDefault();
-                        window.location.href = '/';
+                        window.location.href = "/";
                       }}
                     >
                       <motion.div
@@ -311,7 +298,7 @@ function Header() {
                       >
                         <Image
                           src="/logo.png"
-                          alt="Logo"
+                          alt="Muhammad Hamza Ismail Logo"
                           width={58}
                           height={58}
                           className="rounded-full border-2 border-yellow-400/30"
@@ -331,16 +318,17 @@ function Header() {
                         className={`text-lg ${
                           activeSection === link.section
                             ? "text-yellow-400 font-medium"
-                            : "text-white/90 hover:text-white"
+                            : "text-gray-200 hover:text-white"
                         }`}
                       >
                         {link.section === "services" ? (
                           <div className="space-y-2">
-                            <button
-                              onClick={link.onClick}
+                            <Link
+                              href={link.href}
+                              rel="nofollow"
                               className="w-full text-left py-3 px-4 flex items-center justify-between"
                             >
-                              <span className="relative">
+                              <span className="relative font-medium">
                                 {link.label}
                                 {activeSection === link.section && (
                                   <motion.span
@@ -366,13 +354,14 @@ function Header() {
                                   clipRule="evenodd"
                                 />
                               </svg>
-                            </button>
+                            </Link>
                             <div className="ml-4 space-y-2">
                               {services.map((service) => (
                                 <Link
                                   key={service._id}
                                   href={`/services/${service.slug}`}
-                                  className="block px-4 py-2 text-white/80 hover:text-white hover:bg-violet-900/30 rounded-lg transition-colors"
+                                  rel="nofollow"
+                                  className="block px-4 py-2 text-gray-200 hover:text-yellow-400 hover:bg-violet-700/50 rounded-lg transition-all duration-200"
                                 >
                                   {service.title}
                                 </Link>
@@ -380,11 +369,13 @@ function Header() {
                             </div>
                           </div>
                         ) : (
-                          <button
-                            onClick={link.onClick}
+                          <Link
+                            href={link.href}
+                            rel={link.section === "home" ? "home" : "nofollow"}
                             className="w-full text-left py-3 px-4 flex items-center"
+                            onClick={link.onClick}
                           >
-                            <span className="relative">
+                            <span className="relative font-medium">
                               {link.label}
                               {activeSection === link.section && (
                                 <motion.span
@@ -398,7 +389,7 @@ function Header() {
                                 />
                               )}
                             </span>
-                          </button>
+                          </Link>
                         )}
                       </motion.li>
                     ))}
@@ -408,14 +399,11 @@ function Header() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.2 }}
-                    className="mt-8 pt-6 border-t border-white/10"
+                    className="mt-8 pt-6 border-t border-violet-500/30"
                   >
                     <button
                       onClick={handleContactClick}
-                      className="w-full text-center py-3 px-6 text-white font-semibold 
-                     bg-gradient-to-r from-yellow-500 to-orange-500 
-                     rounded-lg shadow-lg hover:shadow-yellow-500/30 
-                     transition-all duration-300 flex items-center justify-center gap-2"
+                      className="w-full text-center py-3 px-6 text-gray-900 font-semibold bg-gradient-to-r from-violet-600 to-yellow-500 rounded-lg shadow-lg hover:shadow-yellow-500/30 transition-all duration-300 flex items-center justify-center gap-2"
                     >
                       Contact Me
                       <svg
