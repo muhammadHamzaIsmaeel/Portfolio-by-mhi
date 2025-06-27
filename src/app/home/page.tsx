@@ -371,10 +371,4 @@ function Homepage() {
     </>
   );
 }
-
-// Welcome component
-function Welcome() {
-  return <span>Welcome to My Portfolio</span>;
-}
-
 export default Homepage;
