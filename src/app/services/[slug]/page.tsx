@@ -1,6 +1,4 @@
-// src/app/services/[slug]/page.tsx
-"use client"; // Add this directive since we'll use client-side hooks
-
+"use client";
 import ServiceProcess from "@/components/ServiceProcess";
 import ServiceTestimonials from "@/components/ServiceTestimonials";
 import { client } from "@/sanity/lib/client";
@@ -13,6 +11,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import Head from "next/head";
 import type { PopulatedService, RelatedService } from "@/app/types/service";
+import { assert } from "console";
 
 const getService = async (
   slug: string
@@ -37,7 +36,12 @@ const getService = async (
           title,
           "slug": slug.current,
           description,
-          image
+          image {
+            asset->{
+              url
+            },
+            alt
+          }
         }
       }`,
       { slug }
@@ -151,7 +155,7 @@ export default function ServicePage() {
             Service Not Found
           </h1>
           <p className="text-gray-600 mb-6">
-            The service you&apos;re looking for doesn&apos;t exist or may have been moved.
+            The service you're looking for doesn't exist or may have been moved.
           </p>
           <Link
             href="/services"
@@ -168,11 +172,16 @@ export default function ServicePage() {
   return (
     <>
       <Head>
-        <title>{`${service.title} | Services`}</title>
+        <title>{`${service.title} | Muhammad Hamza Ismail`}</title>
         <meta name="description" content={service.description} />
+        <meta
+          name="keywords"
+          content={`Muhammad Hamza Ismail, MHI, ${service.title.toLowerCase()}, web developer Pakistan, ${service.title.toLowerCase()} services, Next.js, Tailwind CSS`}
+        />
+        <meta name="author" content="Muhammad Hamza Ismail" />
       </Head>
       <div className="bg-gradient-to-b from-white to-gray-50">
-        {/* Modern Hero Section */}
+        {/* Hero Section */}
         <div className="relative overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-r from-purple-900/80 to-indigo-900/80 z-10"></div>
           {service.image && (
@@ -181,7 +190,7 @@ export default function ServicePage() {
               alt={service.image.alt || service.title}
               width={1920}
               height={1080}
-              className="w-full h-[500px] object-cover"
+              className="w-full h-[700px] object-cover"
               priority
             />
           )}
@@ -201,11 +210,13 @@ export default function ServicePage() {
                   Get Started
                   <FaArrowRight className="ml-2" />
                 </Link>
-                <a href="/home#projects">
-                  <button className="px-8 py-4 border-2 border-white text-white font-semibold rounded-lg hover:bg-white/10 transition-colors">
-                    View Portfolio
-                  </button>
-                </a>
+                <Link
+                  href="/home#projects"
+                  className="px-8 py-4 border-2 border-white text-white font-semibold rounded-lg hover:bg-white/10 transition-colors flex items-center"
+                >
+                  View Portfolio
+                  <FaArrowRight className="ml-2" />
+                </Link>
               </div>
             </div>
           </div>
@@ -228,20 +239,15 @@ export default function ServicePage() {
               {service.features && service.features.length > 0 && (
                 <div className="mt-16 bg-white rounded-xl shadow-md p-8">
                   <h2 className="text-3xl font-bold text-gray-800 mb-8">
-                    What&apos;s Included
+                    What's Included
                   </h2>
                   <ul className="grid md:grid-cols-2 gap-6">
-                    {service.features.map(
-                      (
-                        feature,
-                        index // Already correct, just showing for completeness
-                      ) => (
-                        <li key={index} className="flex items-start">
-                          <FaCheckCircle className="text-green-500 text-xl mt-1 mr-3 flex-shrink-0" />
-                          <span className="text-gray-700">{feature}</span>
-                        </li>
-                      )
-                    )}
+                    {service.features.map((feature, index) => (
+                      <li key={index} className="flex items-start">
+                        <FaCheckCircle className="text-green-500 text-xl mt-1 mr-3 flex-shrink-0" />
+                        <span className="text-gray-700">{feature}</span>
+                      </li>
+                    ))}
                   </ul>
                 </div>
               )}
@@ -278,7 +284,7 @@ export default function ServicePage() {
                     Technologies We Use
                   </h3>
                   <div className="flex flex-wrap gap-3">
-                    {service.technologies?.map((tech) => (
+                    {service.technologies.map((tech) => (
                       <Link
                         key={tech._id}
                         href={`/technologies/${tech.slug}`}
@@ -359,43 +365,39 @@ export default function ServicePage() {
                 </p>
               </div>
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {service.relatedServices.map(
-                  (
-                    related // Remove ": any"
-                  ) => (
-                    <div
-                      key={related.slug.current}
-                      className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow"
-                    >
-                      {related.image && (
-                        <div className="h-48 relative">
-                          <Image
-                            src={urlFor(related.image).url()}
-                            alt={related.image.alt || related.title}
-                            fill
-                            className="object-cover"
-                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                          />
-                        </div>
-                      )}
-                      <div className="p-6">
-                        <h3 className="text-xl font-bold mb-2 text-gray-800">
-                          {related.title}
-                        </h3>
-                        <p className="text-gray-600 mb-4 line-clamp-2">
-                          {related.description}
-                        </p>
-                        <Link
-                          href={`/services/${related.slug.current}`}
-                          className="text-purple-600 hover:text-purple-800 font-medium inline-flex items-center"
-                        >
-                          Learn more
-                          <FaArrowRight className="ml-2" />
-                        </Link>
+                {service.relatedServices.map((related) => (
+                  <div
+                    key={related._id}
+                    className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow"
+                  >
+                    {related.image && (
+                      <div className="h-48 relative">
+                        <Image
+                          src={urlFor(related.image).url()}
+                          alt={related.image.alt || related.title}
+                          fill
+                          className="object-cover"
+                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                        />
                       </div>
+                    )}
+                    <div className="p-6">
+                      <h3 className="text-xl font-bold mb-2 text-gray-800">
+                        {related.title}
+                      </h3>
+                      <p className="text-gray-600 mb-4 line-clamp-2">
+                        {related.description}
+                      </p>
+                      <Link
+                        href={`/services/${related.slug}`}
+                        className="text-purple-600 hover:text-purple-800 font-medium inline-flex items-center"
+                      >
+                        Learn more
+                        <FaArrowRight className="ml-2" />
+                      </Link>
                     </div>
-                  )
-                )}
+                  </div>
+                ))}
               </div>
             </div>
           </div>
