@@ -124,7 +124,7 @@ const HomePage: FC = () => {
             transition={{ duration: 0.8, ease: "easeOut" }}
             className="text-5xl md:text-6xl font-medium mb-6 tracking-tight"
           >
-            Hello, I'm{" "}
+            Hello, I&apos;m{" "}
             <span className="text-yellow-400 font-semibold">
               Muhammad Hamza Ismail
             </span>
