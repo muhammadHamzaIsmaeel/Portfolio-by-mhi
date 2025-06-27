@@ -108,7 +108,7 @@ function Homepage() {
           {/* Optimized Background Image */}
           <div className="fixed inset-0 -z-20">
             <Image
-              src="/bg2.jpg"
+              src="/bg1.jpg"
               alt="Abstract developer background"
               fill
               priority

@@ -4,10 +4,5 @@ export const servicesQuery = `*[_type == "service"] {
   "slug": slug.current,
   description,
   content,
-  image {
-    asset->{
-      url
-    },
-    alt
-  }
-}`;
+  image
+}`
