@@ -136,7 +136,7 @@ export default function Contact() {
               </div>
               <div>
                 <p className="text-sm text-white">Phone</p>
-                <p className="text-white font-medium">+92 315 2121984</p>
+                <p className="text-white text-sm md:text-base font-medium">+92 315 2121984</p>
               </div>
             </motion.div>
 
@@ -151,7 +151,7 @@ export default function Contact() {
               </div>
               <div>
                 <p className="text-sm text-white">Email</p>
-                <p className="text-white font-medium">m.hamzashaikh6067@gmail.com</p>
+                <p className="text-white text-sm md:text-base font-medium">m.hamzashaikh6067@gmail.com</p>
               </div>
             </motion.div>
 
@@ -166,7 +166,7 @@ export default function Contact() {
               </div>
               <div>
                 <p className="text-sm text-white">Location</p>
-                <p className="text-white font-medium">Karachi, Pakistan</p>
+                <p className="text-white text-sm md:text-base font-medium">Karachi, Pakistan</p>
               </div>
             </motion.div>
           </div>
@@ -184,7 +184,7 @@ export default function Contact() {
               href="https://www.instagram.com/muhammad_hamza_ismail"
               className="p-2 rounded-full bg-violet-100 text-violet-700 hover:bg-violet-200 transition-colors"
             >
-              <Image src="/.icon/instagram.png" alt="Instagram" width={24} height={24} />
+              <Image src="/.icons/instagram.png" alt="Instagram" width={24} height={24} />
             </motion.a>
             <motion.a 
               whileHover={{ y: -3 }}
@@ -193,7 +193,7 @@ export default function Contact() {
               href="https://www.facebook.com/muhammad.hamza.ismail.2025"
               className="p-2 rounded-full bg-violet-100 text-violet-700 hover:bg-violet-200 transition-colors"
             >
-              <Image src="/.icon/facebook.png" alt="Facebook" width={24} height={24} />
+              <Image src="/.icons/facebook.png" alt="Facebook" width={24} height={24} />
             </motion.a>
             <motion.a 
               whileHover={{ y: -3 }}
@@ -202,7 +202,7 @@ export default function Contact() {
               href="https://www.linkedin.com/in/muhammadhamzaismail"
               className="p-2 rounded-full bg-violet-100 text-violet-700 hover:bg-violet-200 transition-colors"
             >
-              <Image src="/.icon/linkedin.png" alt="LinkedIn" width={24} height={24} />
+              <Image src="/.icons/linkedin.png" alt="LinkedIn" width={24} height={24} />
             </motion.a>
           </motion.div>
         </motion.div>

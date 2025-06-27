@@ -242,10 +242,7 @@ function Homepage() {
               <motion.div variants={itemVariants} className="mb-6">
                 <div className="relative inline-block">
                   <span className="text-base md:text-lg px-4 py-2 bg-gray-900/80 rounded-full text-white font-medium">
-                    Front-End Developer
-                  </span>
-                  <span className="text-base md:text-lg px-4 py-2 bg-gray-900/80 rounded-full text-white font-medium">
-                    Agentic AI Specialist
+                    Website Developer
                   </span>
                   <span className="absolute inset-0 rounded-full bg-gradient-to-r from-violet-600 to-yellow-500 blur-md opacity-50 -z-10"></span>
                 </div>
