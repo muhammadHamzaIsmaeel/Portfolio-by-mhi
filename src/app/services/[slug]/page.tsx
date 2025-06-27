@@ -11,7 +11,6 @@ import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import Head from "next/head";
 import type { PopulatedService, RelatedService } from "@/app/types/service";
-import { assert } from "console";
 
 const getService = async (
   slug: string
@@ -155,7 +154,7 @@ export default function ServicePage() {
             Service Not Found
           </h1>
           <p className="text-gray-600 mb-6">
-            The service you're looking for doesn't exist or may have been moved.
+            The service you&apos;re looking for doesn&apos;t exist or may have been moved.
           </p>
           <Link
             href="/services"
@@ -239,7 +238,7 @@ export default function ServicePage() {
               {service.features && service.features.length > 0 && (
                 <div className="mt-16 bg-white rounded-xl shadow-md p-8">
                   <h2 className="text-3xl font-bold text-gray-800 mb-8">
-                    What's Included
+                    What&apos;s Included
                   </h2>
                   <ul className="grid md:grid-cols-2 gap-6">
                     {service.features.map((feature, index) => (
