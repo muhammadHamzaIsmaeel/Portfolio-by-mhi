@@ -51,7 +51,7 @@ export async function POST(request: Request) {
       ipAddress: ip,
     };
 
-    const sanityResult = await client.create(contactSubmission);
+    // const sanityResult = await client.create(contactSubmission);
 
     // Send WhatsApp notification (non-blocking)
     try {
