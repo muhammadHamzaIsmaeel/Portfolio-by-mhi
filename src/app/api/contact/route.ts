@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server';
 import { rateLimit } from '@/lib/rate-limit';
-import { client } from '@/sanity/lib/client';
 import twilio from 'twilio';
 
 const limiter = rateLimit({
@@ -40,19 +39,18 @@ export async function POST(request: Request) {
     }
 
     // Create document in Sanity
-    const contactSubmission = {
-      _type: 'contact',
-      firstName,
-      lastName,
-      email,
-      phone,
-      message,
-      submittedAt: new Date().toISOString(),
-      ipAddress: ip,
-    };
+    // const contactSubmission = {
+    //   _type: 'contact',
+    //   firstName,
+    //   lastName,
+    //   email,
+    //   phone,
+    //   message,
+    //   submittedAt: new Date().toISOString(),
+    //   ipAddress: ip,
+    // };
 
     // const sanityResult = await client.create(contactSubmission);
-
     // Send WhatsApp notification (non-blocking)
     try {
       await twilioClient.messages.create({
