@@ -1,20 +1,25 @@
 import { NextResponse } from 'next/server';
 import { rateLimit } from '@/lib/rate-limit';
 import { client } from '@/sanity/lib/client';
+import twilio from 'twilio';
 
 const limiter = rateLimit({
-  interval: 60 * 1000, // 1 minute
-  uniqueTokenPerInterval: 500, // Max users per interval
+  interval: 60 * 1000,
+  uniqueTokenPerInterval: 500,
 });
+
+// Initialize Twilio client
+const twilioClient = twilio(
+  process.env.TWILIO_ACCOUNT_SID,
+  process.env.TWILIO_AUTH_TOKEN
+);
 
 export async function POST(request: Request) {
   try {
-    // Get IP from headers (works on Vercel)
+    // Rate limiting
     const ip = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 'anonymous';
-    
-    // Apply rate limiting
-    await limiter.check(5, ip); // 5 requests per minute per IP
-    
+    await limiter.check(5, ip);
+
     const body = await request.json();
     const { firstName, lastName, email, phone, message } = body;
 
@@ -43,15 +48,28 @@ export async function POST(request: Request) {
       phone,
       message,
       submittedAt: new Date().toISOString(),
-      ipAddress: ip, // Optional: Store IP for moderation
+      ipAddress: ip,
     };
 
-    await client.create(contactSubmission);
+    const sanityResult = await client.create(contactSubmission);
+
+    // Send WhatsApp notification (non-blocking)
+    try {
+      await twilioClient.messages.create({
+        body: `📢 New Contact Form Submission:\n\nName: ${firstName} ${lastName}\nEmail: ${email}\nPhone: ${phone || 'Not provided'}\nMessage: ${message}\n\nIP: ${ip}`,
+        from: `whatsapp:${process.env.TWILIO_WHATSAPP_NUMBER}`,
+        to: `whatsapp:${process.env.YOUR_WHATSAPP_NUMBER}`
+      });
+    } catch (whatsappError) {
+      console.error('WhatsApp notification failed:', whatsappError);
+      // Don't fail the whole request if WhatsApp fails
+    }
 
     return NextResponse.json(
       { message: 'Message sent successfully!' },
       { status: 200 }
     );
+
   } catch (error) {
     if (error instanceof Error && error.message === 'Rate limit exceeded') {
       return NextResponse.json(

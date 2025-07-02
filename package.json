@@ -40,7 +40,8 @@
     "sanity": "^3.85.1",
     "styled-components": "^6.1.17",
     "tailwind-merge": "^2.5.4",
-    "tailwindcss-animate": "^1.0.7"
+    "tailwindcss-animate": "^1.0.7",
+    "twilio": "^5.7.1"
   },
   "devDependencies": {
     "@types/node": "^22.15.29",
