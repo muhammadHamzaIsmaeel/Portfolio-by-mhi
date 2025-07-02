@@ -1,4 +1,7 @@
 "use client";
+
+import Image from "next/image";
+
 // import Image from 'next/image';
 
 export default function AboutDetails() {
@@ -78,10 +81,12 @@ export default function AboutDetails() {
             {/* Certificate Card */}
             <div className="rounded-lg overflow-hidden shadow-md bg-white">
               <div className="w-full h-52 bg-gray-100">
-                <img
+                <Image
                   src="/cer/FED.png"
                   alt="Front-End Development Certificate"
                   className="w-full h-full object-contain"
+                  width={1000}
+                  height={1000}
                 />
               </div>
               <p className="text-center text-sm text-gray-700 font-medium py-2 px-2 border-t">
