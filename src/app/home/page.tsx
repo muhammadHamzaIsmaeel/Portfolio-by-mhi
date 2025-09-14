@@ -101,7 +101,7 @@ function Homepage() {
         {/* Preload Critical Assets */}
         <link
           rel="preload"
-          href="/hamza.jpg"
+          href="/hamza.png"
           as="image"
           type="image/jpeg"
           fetchPriority="high"
@@ -205,7 +205,7 @@ function Homepage() {
                 <div className="relative rounded-full p-1.5 overflow-hidden">
                   <div className="relative rounded-full overflow-hidden w-64 h-64 md:w-80 md:h-80 border-4 border-transparent group-hover:border-yellow-400/50 transition-all duration-500">
                     <Image
-                      src="/hamza.jpg"
+                      src="/hamza.png"
                       alt="Professional portrait of Muhammad Hamza Ismail"
                       fill
                       className="object-cover transition-transform duration-500 group-hover:scale-105"
@@ -242,7 +242,7 @@ function Homepage() {
               <motion.div variants={itemVariants} className="mb-6">
                 <div className="relative inline-block">
                   <span className="text-base md:text-lg px-4 py-2 bg-gray-900/80 rounded-full text-white font-medium">
-                    Website Developer
+                    AI Agents Developer
                   </span>
                   <span className="absolute inset-0 rounded-full bg-gradient-to-r from-violet-600 to-yellow-500 blur-md opacity-50 -z-10"></span>
                 </div>
@@ -332,7 +332,7 @@ function Homepage() {
                 ))}
               </motion.div>
 
-              {/* Skills Bubble */}
+              {/* Skills Bubble
               <motion.div
                 variants={itemVariants}
                 className="mt-8"
@@ -343,7 +343,7 @@ function Homepage() {
                     Next.js • Tailwind CSS • React • TypeScript • Sanity • Stripe
                   </span>
                 </div>
-              </motion.div>
+              </motion.div> */}
             </motion.div>
           </section>
 
