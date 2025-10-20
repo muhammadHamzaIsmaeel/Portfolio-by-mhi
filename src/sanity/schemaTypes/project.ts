@@ -15,6 +15,18 @@ export default defineType({
       validation: Rule => Rule.required()
     }),
     defineField({
+      name: 'mainImage',
+      title: 'Main Image',
+      type: 'image',
+      validation: Rule => Rule.required()
+    }),
+    defineField({
+      name: 'category',
+      title: 'Category',
+      type: 'string',
+      validation: Rule => Rule.required()
+    }),
+    defineField({
       name: 'slug',
       title: 'Slug',
       type: 'slug',

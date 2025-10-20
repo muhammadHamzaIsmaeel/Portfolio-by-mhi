@@ -12,7 +12,7 @@ const About = dynamic(() => import("../about/page"), {
   loading: () => <div className="min-h-screen bg-gray-900" />,
 });
 const Skills = dynamic(() => import("../skills/page"));
-const Project = dynamic(() => import("../project/page"));
+const ProjectsSection = dynamic(() => import("../project/page"));
 const Contact = dynamic(() => import("../contact-us/page"));
 
 // Animation variants for staggered effects
@@ -357,7 +357,7 @@ function Homepage() {
           </section>
 
           <section id="project" className="bg-gray-900">
-            <Project />
+            <ProjectsSection />
           </section>
 
           <section id="contactus" className="bg-transparent">
