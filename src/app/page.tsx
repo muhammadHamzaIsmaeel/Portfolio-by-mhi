@@ -1,178 +1,332 @@
 "use client";
-import Link from "next/link";
 import { motion } from "framer-motion";
-import { FC } from "react";
-import Head from "next/head";
+import { FC, useEffect, useState } from "react";
+import Image from "next/image";
+import { FaGithub, FaLinkedin, FaInstagram, FaFacebook } from "react-icons/fa";
+import About from "./about/page";
+import Skills from "./skills/page";
+import ProjectsSection from "./project/page";
+import Contact from "./contact-us/page";
 
 const HomePage: FC = () => {
-  // Structured data for SEO
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "Person",
-    name: "Muhammad Hamza Ismail",
-    jobTitle: "Web Developer & AI Agent Specialist",
-    url: "https://muhammadhamzaismail.vercel.app",
-    sameAs: [
-      "https://linkedin.com/in/muhammadhamzaismail",
-      "https://github.com/muhammadhamzaismaeel",
-      "https://x.com/m_hamza_ismail", // Replace with your Twitter
-    ],
-    knowsAbout: [
-      "Next.js",
-      "Tailwind CSS",
-      "Sanity CMS",
-      "Stripe",
-      "React",
-      "Frontend Development",
-      "Web Design",
-      "Ecommerce Development",
-      "Business Websites",
-      "AI Agent Integration",
-    ],
-    address: {
-      "@type": "PostalAddress",
-      addressCountry: "PK", // Pakistan
-    },
-  };
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return null;
 
   return (
     <>
-      {/* SEO Meta Tags */}
-      <Head>
-        <title>Muhammad Hamza Ismail | Web Developer & AI Agent Specialist</title>
-        <meta
-          name="description"
-          content="Portfolio of Muhammad Hamza Ismail, offering expert website development, ecommerce solutions, business websites, and AI agent integration services in Pakistan and globally."
-        />
-        <meta
-          name="keywords"
-          content="Muhammad Hamza Ismail, MHI, web developer Pakistan, website development, ecommerce website, business website, AI agent development, Next.js developer, Tailwind CSS expert, Sanity CMS, Stripe integration, frontend developer"
-        />
-        <meta
-          property="og:title"
-          content="Muhammad Hamza Ismail | Web & AI Solutions"
-        />
-        <meta
-          property="og:description"
-          content="Discover professional web development, ecommerce, and AI agent services by Muhammad Hamza Ismail."
-        />
-        <meta
-          property="og:url"
-          content="https://muhammadhamzaismail.vercel.app"
-        />
-        <meta property="og:type" content="website" />
-        <meta
-          property="og:image"
-          content="https://muhammadhamzaismail.vercel.app/og-image.jpg"
-        />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta
-          name="twitter:title"
-          content="Muhammad Hamza Ismail | Web Developer & AI Specialist"
-        />
-        <meta
-          name="twitter:description"
-          content="Expert web development and AI agent solutions by Muhammad Hamza Ismail. Contact for ecommerce and business websites!"
-        />
-        <meta
-          name="twitter:image"
-          content="https://muhammadhamzaismail.vercel.app/twitter-image.jpg"
-        />
-        <meta name="twitter:creator" content="@YourTwitterHandle" /> {/* Replace with your Twitter handle */}
-        <link
-          rel="canonical"
-          href="https://muhammadhamzaismail.vercel.app"
-        />
+      {/* Hero Section - Landing Page Style */}
+      <div className="relative min-h-screen bg-[#0a0a0a] text-white selection:bg-white selection:text-black overflow-hidden">
+        {/* --- PREMIUM BACKGROUND ELEMENTS --- */}
+        <div className="absolute inset-0 z-0">
+          {/* Subtle Grid Pattern */}
+          <div
+            className="absolute inset-0 opacity-[0.15]"
+            style={{
+              backgroundImage: `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M40 40H0V0h40v40zM1 1h38v38H1V1z' fill='%23ffffff' fill-opacity='0.1' fill-rule='evenodd'/%3E%3C/svg%3E")`,
+            }}
+          ></div>
+          {/* Radial Glow */}
+          <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-white/5 rounded-full blur-[120px]"></div>
+          <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-white/5 rounded-full blur-[120px]"></div>
+        </div>
 
-        {/* Structured Data */}
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-        />
-      </Head>
+        <main className="relative z-10 container mx-auto px-6 pt-32 pb-20">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            {/* --- LEFT CONTENT (TYPOGRAPHY) --- */}
+            <div className="lg:col-span-7 space-y-8">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+              >
+                <span className="px-4 py-1.5 rounded-full border border-white/10 bg-white/5 text-sm font-light tracking-widest uppercase mb-6 inline-block">
+                  Available for New Projects
+                </span>
+                <h1 className="text-6xl md:text-8xl font-bold leading-[0.9] tracking-tighter">
+                  MUHAMMAD <br />
+                  <span className="text-neutral-500">HAMZA</span> ISMAIL
+                </h1>
+              </motion.div>
 
-      {/* Main Content */}
-      <div className="relative w-full h-screen flex items-center justify-center text-white overflow-hidden">
-        {/* Optimized Background Video */}
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          preload="auto"
-          poster="/bg2.jpg"
-          className="absolute inset-0 w-full h-full object-cover -z-10 opacity-80"
-          aria-label="Background video showcasing web development and AI projects"
-        >
-          <source src="/bg.mp4" type="video/mp4" />
-        </video>
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                className="text-lg md:text-xl text-neutral-400 max-w-xl font-light leading-relaxed"
+              >
+                Full-stack developer crafting{" "}
+                <span className="text-white font-medium">scalable web applications</span> and{" "}
+                <span className="text-white font-medium">intelligent AI systems</span>. 
+                I architect end-to-end solutions with{" "}
+                <span className="text-white font-medium">Next.js</span>,{" "}
+                <span className="text-white font-medium">React</span>, and{" "}
+                <span className="text-white font-medium">Node.js</span>, powered by modern databases 
+                and AI automation frameworks.
+              </motion.p>
 
-        {/* Improved overlay for better text contrast */}
-        <div className="absolute inset-0 bg-black/40 z-0"></div>
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.4 }}
+                className="flex flex-wrap gap-6 items-center"
+              >
+                {/* Download CV Button */}
+                <a href="/cv.pdf" download>
+                  <button className="group relative px-8 py-4 bg-white text-black font-bold rounded-full overflow-hidden transition-all hover:scale-105 active:scale-95">
+                    <span className="relative z-10 flex items-center gap-2">
+                      DOWNLOAD CV
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-5 w-5 group-hover:translate-y-1 transition-transform"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                    </span>
+                  </button>
+                </a>
 
-        {/* Content Container */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1 }}
-          className="text-center px-6 relative z-10 max-w-4xl mx-auto"
-        >
-          {/* Main Heading with SEO keywords */}
-          <motion.h1
-            initial={{ y: -20 }}
-            animate={{ y: 0 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-            className="text-5xl md:text-6xl font-medium mb-6 tracking-tight"
-          >
-            Hello, I&apos;m{" "}
-            <span className="text-yellow-400 font-semibold">
-              Muhammad Hamza Ismail
-            </span>
-          </motion.h1>
+                <div className="flex gap-4">
+                  <a
+                    href="https://github.com/muhammadhamzaismaeel"
+                    target="_blank"
+                    className="p-4 rounded-full border border-white/10 hover:bg-white hover:text-black transition-all"
+                  >
+                    <FaGithub size={20} />
+                  </a>
+                  <a
+                    href="https://linkedin.com/in/muhammadhamzaismail"
+                    target="_blank"
+                    className="p-4 rounded-full border border-white/10 hover:bg-white hover:text-black transition-all"
+                  >
+                    <FaLinkedin size={20} />
+                  </a>
+                  <a
+                    href="https://www.instagram.com/muhammad_hamza_ismail"
+                    target="_blank"
+                    className="p-4 rounded-full border border-white/10 hover:bg-white hover:text-black transition-all"
+                  >
+                    <FaInstagram size={20} />
+                  </a>
+                  <a
+                    href="https://www.facebook.com/muhammad.hamza.ismail.2025"
+                    target="_blank"
+                    className="p-4 rounded-full border border-white/10 hover:bg-white hover:text-black transition-all"
+                  >
+                    <FaFacebook size={20} />
+                  </a>
+                </div>
+              </motion.div>
+            </div>
 
-          {/* Subheading with keywords */}
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.3, duration: 0.8 }}
-            className="text-lg md:text-xl text-gray-300 mb-10 max-w-2xl mx-auto leading-relaxed"
-          >
-            I craft modern websites and AI-driven solutions, specializing in
-            ecommerce, business websites, and innovative AI agent integration for
-            clients in Pakistan and worldwide.
-          </motion.p>
+            {/* --- RIGHT CONTENT (CREATIVE IMAGE/AVATAR) --- */}
+            <div className="lg:col-span-5 relative">
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.8, ease: "easeOut" }}
+                className="relative aspect-square"
+              >
+                {/* Decorative Rings */}
+                <div className="absolute inset-0 border border-white/10 rounded-full animate-[spin_20s_linear_infinite]"></div>
+                <div className="absolute inset-4 border border-white/5 rounded-full animate-[spin_15s_linear_infinite_reverse]"></div>
 
-          {/* Optimized CTA Button */}
-          <motion.div
-            initial={{ scale: 0.95 }}
-            animate={{ scale: 1 }}
-            transition={{ delay: 0.6, type: "spring" }}
-          >
-            <Link
-              href="/services"
-              aria-label="Explore web development and AI agent services"
-              className="group"
-            >
-              <button className="px-8 py-3.5 bg-gradient-to-r from-violet-600 to-yellow-500 text-gray-900 rounded-lg font-medium text-lg hover:bg-gray-100 transition-all duration-300 flex items-center gap-2 mx-auto shadow-md hover:shadow-lg">
-                Explore My Services
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                  aria-hidden="true"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z"
-                    clipRule="evenodd"
+                {/* Image Container */}
+                <div className="absolute inset-10 rounded-2xl overflow-hidden bg-neutral-900 grayscale hover:grayscale-0 transition-all duration-700 border border-white/20 shadow-2xl shadow-white/5">
+                  <Image
+                    src="/hamza.png"
+                    alt="Muhammad Hamza Ismail"
+                    fill
+                    className="object-cover"
+                    priority
                   />
-                </svg>
-              </button>
-            </Link>
-          </motion.div>
-        </motion.div>
+                </div>
+
+                {/* Stats Floating Card */}
+                <motion.div
+                  animate={{ y: [0, -10, 0] }}
+                  transition={{
+                    duration: 4,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                  }}
+                  className="absolute -bottom-4 -left-4 bg-[#111] border border-white/10 p-5 rounded-xl backdrop-blur-md"
+                >
+                  <p className="text-3xl font-bold tracking-tighter">50+</p>
+                  <p className="text-xs text-neutral-500 uppercase tracking-widest">
+                    Projects Done
+                  </p>
+                </motion.div>
+              </motion.div>
+            </div>
+          </div>
+
+          {/* --- BOTTOM MARQUEE / SKILLS BAR --- */}
+          <div className="mt-32 pt-10 border-t border-white/5">
+            <p className="text-center text-xs tracking-[0.3em] text-neutral-600 uppercase mb-8">
+              Full Stack Expertise
+            </p>
+            <div className="flex flex-wrap justify-center gap-8 md:gap-16 opacity-40 grayscale contrast-125">
+              {[
+                "Next.js",
+                "React",
+                "Node.js",
+                "TypeScript",
+                "MongoDB",
+                "Python",
+              ].map((skill) => (
+                <span
+                  key={skill}
+                  className="text-xl md:text-2xl font-bold tracking-tighter"
+                >
+                  {skill}
+                </span>
+              ))}
+            </div>
+          </div>
+        </main>
       </div>
+
+      {/* Other Sections - Home Page Content */}
+      <section id="about" className="bg-gray-900">
+        <About />
+      </section>
+
+      <section id="skill" className="bg-transparent">
+        <Skills />
+      </section>
+
+      <section id="project" className="bg-gray-900">
+        <ProjectsSection />
+      </section>
+
+      <section id="contactus" className="bg-transparent">
+        <Contact />
+      </section>
+
+      {/* FAQ Section for SEO */}
+      <section className="relative bg-[#0a0a0a] text-white py-20">
+        <div className="absolute inset-0 z-0">
+          <div
+            className="absolute inset-0 opacity-[0.15]"
+            style={{
+              backgroundImage: `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M40 40H0V0h40v40zM1 1h38v38H1V1z' fill='%23ffffff' fill-opacity='0.1' fill-rule='evenodd'/%3E%3C/svg%3E")`,
+            }}
+          ></div>
+        </div>
+        <div className="relative z-10 container mx-auto px-6">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+            className="max-w-4xl mx-auto"
+          >
+            <h2 className="text-4xl md:text-5xl font-bold tracking-tighter text-center mb-12">
+              FREQUENTLY <span className="text-neutral-500">ASKED</span>
+            </h2>
+            <div className="space-y-6">
+              {[
+                {
+                  q: "What web development services do you offer?",
+                  a: "I offer complete web development services including custom website development, e-commerce solutions, business websites, web applications, AI integration, and full-stack development using Next.js, React, Node.js, and modern technologies.",
+                },
+                {
+                  q: "How much does a website cost?",
+                  a: "Website costs vary based on project requirements. A basic business website starts from affordable rates, while complex e-commerce or custom web applications are priced based on features and functionality. Contact me for a free quote tailored to your needs.",
+                },
+                {
+                  q: "How long does it take to build a website?",
+                  a: "A simple business website typically takes 1-2 weeks, while complex web applications or e-commerce sites may take 4-8 weeks depending on features, design complexity, and content readiness.",
+                },
+                {
+                  q: "Do you provide website maintenance?",
+                  a: "Yes, I offer ongoing website maintenance and support services including updates, security patches, performance optimization, and content updates to keep your website running smoothly.",
+                },
+                {
+                  q: "Can you help with AI integration?",
+                  a: "Absolutely! I specialize in AI automation and integration including chatbots, AI agents, automated workflows, and intelligent features using OpenAI, Python, and modern AI frameworks.",
+                },
+              ].map((faq, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, y: 10 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4, delay: i * 0.1 }}
+                  viewport={{ once: true }}
+                  className="p-6 rounded-2xl border border-white/10 bg-white/5"
+                >
+                  <h3 className="text-lg font-medium mb-2">{faq.q}</h3>
+                  <p className="text-neutral-400 font-light">{faq.a}</p>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* FAQ Schema for SEO */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            mainEntity: [
+              {
+                "@type": "Question",
+                name: "What web development services do you offer?",
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text: "I offer complete web development services including custom website development, e-commerce solutions, business websites, web applications, AI integration, and full-stack development using Next.js, React, Node.js, and modern technologies.",
+                },
+              },
+              {
+                "@type": "Question",
+                name: "How much does a website cost?",
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text: "Website costs vary based on project requirements. A basic business website starts from affordable rates, while complex e-commerce or custom web applications are priced based on features and functionality. Contact me for a free quote tailored to your needs.",
+                },
+              },
+              {
+                "@type": "Question",
+                name: "How long does it take to build a website?",
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text: "A simple business website typically takes 1-2 weeks, while complex web applications or e-commerce sites may take 4-8 weeks depending on features, design complexity, and content readiness.",
+                },
+              },
+              {
+                "@type": "Question",
+                name: "Do you provide website maintenance?",
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text: "Yes, I offer ongoing website maintenance and support services including updates, security patches, performance optimization, and content updates to keep your website running smoothly.",
+                },
+              },
+              {
+                "@type": "Question",
+                name: "Can you help with AI integration?",
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text: "Absolutely! I specialize in AI automation and integration including chatbots, AI agents, automated workflows, and intelligent features using OpenAI, Python, and modern AI frameworks.",
+                },
+              },
+            ],
+          }),
+        }}
+      />
     </>
   );
 };

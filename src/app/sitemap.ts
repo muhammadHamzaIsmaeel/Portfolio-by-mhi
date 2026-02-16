@@ -1,42 +1,63 @@
 import { MetadataRoute } from "next";
 import { client } from "@/sanity/lib/client";
-import { servicesQuery } from "@/sanity/queries";
-import { Service } from "@/app/types/service";
+
+const siteUrl = "https://muhammadhamzaismail.vercel.app";
+
+interface Project {
+  slug: string;
+  _updatedAt: string;
+}
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  // Fetch services from Sanity
-  const services: Service[] = await client.fetch(servicesQuery);
+  // Fetch projects from Sanity
+  const projects: Project[] = await client.fetch(`
+    *[_type == "project"] {
+      "slug": slug.current,
+      _updatedAt
+    }
+  `);
 
-  // Static pages
+  // Static pages with SEO priority
   const staticRoutes: MetadataRoute.Sitemap = [
     {
-      url: "https://muhammadhamzaismail.vercel.app",
+      url: siteUrl,
       lastModified: new Date(),
-      changeFrequency: "weekly",
+      changeFrequency: "daily",
       priority: 1.0,
     },
     {
-      url: "https://muhammadhamzaismail.vercel.app/home",
+      url: `${siteUrl}/about`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.9,
+    },
+    {
+      url: `${siteUrl}/skills`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    {
+      url: `${siteUrl}/project`,
       lastModified: new Date(),
       changeFrequency: "weekly",
       priority: 0.9,
     },
     {
-      url: "https://muhammadhamzaismail.vercel.app/services",
+      url: `${siteUrl}/contact-us`,
       lastModified: new Date(),
       changeFrequency: "monthly",
       priority: 0.8,
     },
   ];
 
-  // Dynamic service pages
-  const serviceRoutes: MetadataRoute.Sitemap = services.map((service) => ({
-    url: `https://muhammadhamzaismail.vercel.app/services/${service.slug}`,
-    lastModified: new Date(),
-    changeFrequency: "monthly",
+  // Dynamic project pages
+  const projectRoutes: MetadataRoute.Sitemap = projects.map((project) => ({
+    url: `${siteUrl}/project/${project.slug}`,
+    lastModified: new Date(project._updatedAt),
+    changeFrequency: "weekly" as const,
     priority: 0.7,
   }));
 
-  // Combine static and dynamic routes
-  return [...staticRoutes, ...serviceRoutes];
+  return [...staticRoutes, ...projectRoutes];
 }

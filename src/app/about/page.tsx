@@ -1,203 +1,124 @@
 "use client";
-import Image from "next/image";
-import Link from "next/link";
 import { motion } from "framer-motion";
+import { FC, useEffect, useState } from "react";
+import { FaCode, FaRobot, FaServer, FaBrain } from "react-icons/fa";
 
-function About() {
+const AboutPage: FC = () => {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return null;
+
   return (
-    <section
-      id="about"
-      className="relative py-20 bg-gradient-to-br from-[#0a0e17] to-[#1a1f3a] overflow-hidden"
-    >
-      {/* Decorative elements */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {[...Array(6)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute rounded-full bg-gradient-to-r from-violet-600/10 to-yellow-500/10"
-            initial={{
-              x: Math.random() * 100 - 50,
-              y: Math.random() * 100 - 50,
-              scale: 0.5 + Math.random(),
-            }}
-            animate={{
-              x: [null, Math.random() * 100 - 50],
-              y: [null, Math.random() * 100 - 50],
-            }}
-            transition={{
-              duration: 20 + Math.random() * 20,
-              repeat: Infinity,
-              repeatType: "reverse",
-              ease: "easeInOut",
-            }}
-            style={{
-              width: `${100 + Math.random() * 300}px`,
-              height: `${100 + Math.random() * 300}px`,
-              top: `${Math.random() * 100}%`,
-              left: `${Math.random() * 100}%`,
-            }}
-          />
-        ))}
+    <div id="about" className="relative min-h-screen bg-[#0a0a0a] text-white selection:bg-white selection:text-black overflow-hidden">
+      {/* --- PREMIUM BACKGROUND ELEMENTS --- */}
+      <div className="absolute inset-0 z-0">
+        {/* Subtle Grid Pattern */}
+        <div
+          className="absolute inset-0 opacity-[0.15]"
+          style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M40 40H0V0h40v40zM1 1h38v38H1V1z' fill='%23ffffff' fill-opacity='0.1' fill-rule='evenodd'/%3E%3C/svg%3E")`,
+          }}
+        ></div>
+        {/* Radial Glow */}
+        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-white/5 rounded-full blur-[120px]"></div>
+        <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-white/5 rounded-full blur-[120px]"></div>
       </div>
 
-      <div className="container mx-auto px-4 relative z-10">
-        <motion.div
-          id="about"
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-          className="text-center pb-16"
-        >
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">
-            <span className="bg-gradient-to-r from-violet-400 to-yellow-300 bg-clip-text text-transparent">
+      <main className="relative z-10 container mx-auto px-6 pt-32 pb-20">
+        <div className="max-w-5xl mx-auto">
+          {/* Header */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+            <span className="px-4 py-1.5 rounded-full border border-white/10 bg-white/5 text-sm font-light tracking-widest uppercase mb-6 inline-block">
               About Me
             </span>
-          </h1>
-          <motion.p
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="font-medium text-violet-200/80 text-lg md:text-xl"
-          >
-            <i>Passionate Learner & Web Developer</i>
-          </motion.p>
-          <motion.span
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="inline-block h-1 w-24 bg-gradient-to-r from-violet-400 to-yellow-300 mt-6 rounded-full"
-          ></motion.span>
-        </motion.div>
-
-        <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
-          {/* Profile Image Section */}
-          <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
-            className="flex-1 flex justify-center"
-          >
-            <motion.div
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.98 }}
-              className="relative group"
-            >
-              {/* Glowing Border */}
-              <div className="absolute inset-0 rounded-full bg-gradient-to-r from-violet-600/50 to-yellow-500/50 blur-md opacity-70 group-hover:opacity-90 transition-all duration-500"></div>
-
-              {/* Image Container */}
-              <div className="relative rounded-full border-4 border-transparent group-hover:border-yellow-400/30 transition-all duration-500 overflow-hidden w-72 h-72 md:w-80 md:h-80">
-                <Image
-                  src="/hamza.png"
-                  alt="Muhammad Hamza Ismail"
-                  width={320}
-                  height={320}
-                  className="object-cover w-full h-full rounded-full shadow-2xl"
-                />
-              </div>
-
-              {/* Animated Gradient Ring */}
-              <motion.div
-                initial={{ rotate: 0 }}
-                animate={{ rotate: 360 }}
-                transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                className="absolute inset-0 rounded-full border-4 border-transparent border-t-violet-500/50 border-r-yellow-500/50 pointer-events-none"
-              ></motion.div>
-            </motion.div>
+            <h1 className="text-6xl md:text-8xl font-bold leading-[0.9] tracking-tighter mb-12">
+              FULL STACK <br />
+              <span className="text-neutral-500">DEVELOPER</span> & AI
+              <br />
+              SPECIALIST
+            </h1>
           </motion.div>
 
-          {/* About Text Section */}
+          {/* Content */}
           <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            className="flex-1 space-y-6"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="space-y-6 mb-12"
           >
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 1 }}
-              className="text-violet-100 leading-relaxed text-lg"
-            >
-              <span className="text-3xl font-bold bg-gradient-to-r from-violet-400 to-yellow-300 bg-clip-text text-transparent">
-                Hi, I&apos;m Hamza!
-              </span>
-              <br />A passionate web developer and AI enthusiast focused on
-              building modern, user-friendly digital solutions. I specialize in
-              creating seamless experiences with the latest technologies and
-              love turning ideas into impactful products.
-            </motion.p>
+            <p className="text-lg md:text-xl text-neutral-400 font-light leading-relaxed">
+              Hi, I&apos;m <span className="text-white font-medium">Muhammad Hamza Ismail</span> — a
+              passionate developer specializing in{" "}
+              <span className="text-white font-medium">full-stack web development</span> and{" "}
+              <span className="text-white font-medium">AI automation</span>.
+            </p>
 
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 1.2 }}
-              className="text-violet-100 leading-relaxed text-lg"
-            >
-              Alongside my development work, I&apos;m currently expanding my
-              knowledge in{" "}
-              <span className="font-bold text-violet-300">Agentic AI</span>,
-              exploring how intelligent systems can transform businesses and
-              innovation.
-            </motion.p>
+            <p className="text-lg text-neutral-400 font-light leading-relaxed">
+              I build scalable, modern applications using{" "}
+              <span className="text-white font-medium">Next.js 15</span>,{" "}
+              <span className="text-white font-medium">React</span>, and{" "}
+              <span className="text-white font-medium">TypeScript</span> on the frontend,
+              backed by robust solutions with{" "}
+              <span className="text-white font-medium">Node.js</span>,{" "}
+              <span className="text-white font-medium">Express.js</span>, and databases like{" "}
+              <span className="text-white font-medium">MongoDB</span> and{" "}
+              <span className="text-white font-medium">MySQL</span>.
+            </p>
 
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 1.4 }}
-              className="text-violet-100 leading-relaxed text-lg"
-            >
-              I&apos;m eager to collaborate with forward-thinking teams and
-              clients who value creativity, growth, and long-term partnerships.
-            </motion.p>
+            <p className="text-lg text-neutral-400 font-light leading-relaxed">
+              On the AI side, I develop intelligent{" "}
+              <span className="text-white font-medium">Agentic AI systems</span> using{" "}
+              <span className="text-white font-medium">OpenAI Agent SDK</span>,{" "}
+              <span className="text-white font-medium">Python</span>,{" "}
+              <span className="text-white font-medium">FastAPI</span>, and data science tools
+              like <span className="text-white font-medium">Pandas</span> and{" "}
+              <span className="text-white font-medium">NumPy</span>.
+            </p>
 
-            {/* Button for More Information */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 1.8 }}
-              className="pt-4"
-            >
-              <Link href="/about-details" aria-label="View Full Details">
-                <motion.button
-                  whileHover={{ y: -2 }}
-                  whileTap={{ scale: 0.98 }}
-                  className="relative overflow-hidden group px-8 py-3 rounded-lg bg-gradient-to-r from-violet-600 to-yellow-500 text-white font-medium shadow-lg"
-                >
-                  <span className="relative z-10 flex items-center gap-2">
-                    View Full Details
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-4 w-4 group-hover:translate-x-1 transition-transform"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M14 5l7 7m0 0l-7 7m7-7H3"
-                      />
-                    </svg>
-                  </span>
-                  <span className="absolute inset-0 bg-gradient-to-r from-violet-700 to-yellow-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
-                </motion.button>
-              </Link>
-            </motion.div>
+            <p className="text-lg text-neutral-400 font-light leading-relaxed">
+              I&apos;m driven by solving complex problems through elegant code and creating
+              digital experiences that make a real impact. Whether it&apos;s architecting a
+              full-stack application or building AI-powered automation workflows, I bring
+              creativity, technical depth, and a commitment to excellence.
+            </p>
+          </motion.div>
+
+          {/* Expertise Pills */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+            className="flex flex-wrap gap-4 mt-16 pt-10 border-t border-white/5"
+          >
+            <div className="flex items-center gap-2 px-5 py-3 rounded-full border border-white/10 bg-white/5">
+              <FaCode className="text-white" />
+              <span className="text-sm font-medium">Full Stack Development</span>
+            </div>
+            <div className="flex items-center gap-2 px-5 py-3 rounded-full border border-white/10 bg-white/5">
+              <FaRobot className="text-white" />
+              <span className="text-sm font-medium">AI Automation</span>
+            </div>
+            <div className="flex items-center gap-2 px-5 py-3 rounded-full border border-white/10 bg-white/5">
+              <FaServer className="text-white" />
+              <span className="text-sm font-medium">Backend Architecture</span>
+            </div>
+            <div className="flex items-center gap-2 px-5 py-3 rounded-full border border-white/10 bg-white/5">
+              <FaBrain className="text-white" />
+              <span className="text-sm font-medium">Agentic AI Systems</span>
+            </div>
           </motion.div>
         </div>
-
-        {/* Divider */}
-        <motion.span
-          initial={{ scale: 0 }}
-          animate={{ scale: 1 }}
-          transition={{ duration: 0.8, delay: 2 }}
-          className="block h-1 w-24 mx-auto bg-gradient-to-r from-violet-400 to-yellow-300 mt-20 rounded-full"
-        ></motion.span>
-      </div>
-    </section>
+      </main>
+    </div>
   );
-}
+};
 
-export default About;
+export default AboutPage;
